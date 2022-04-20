@@ -1,7 +1,6 @@
-import { MantineProvider } from '@mantine/core';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
+import Provider from 'utils/provider';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -11,16 +10,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <MantineProvider
-      theme={{
-        primaryColor: 'red',
-        fontFamily: "'Roboto', sans-serif",
-      }}
-    >
-      <Router>
-        <App />
-      </Router>
-    </MantineProvider>
+    <Provider>
+      <App />
+    </Provider>
   </React.StrictMode>,
 );
 
