@@ -1,5 +1,6 @@
 import { MantineProvider, MantineThemeOverride } from '@mantine/core';
 import type { PropsWithChildren } from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { setupStore } from 'store';
 
@@ -28,7 +29,7 @@ const theme: MantineThemeOverride = {
 
 const store = setupStore();
 
-const Provider = ({ children }: PropsWithChildren<any>) => (
+const AppProvider = ({ children }: PropsWithChildren<{}>) => (
   <MantineProvider theme={theme}>
     <Provider store={store}>
       <Router>{children}</Router>
@@ -36,4 +37,4 @@ const Provider = ({ children }: PropsWithChildren<any>) => (
   </MantineProvider>
 );
 
-export default Provider;
+export default AppProvider;

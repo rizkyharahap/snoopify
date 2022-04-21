@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Avatar,
-  Button,
   Drawer as MantineDrawer,
   DrawerProps,
   Group,
@@ -10,7 +9,6 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { PropsWithChildren, useState } from 'react';
-import Logout from 'tabler-icons-react/dist/icons/logout';
 import AlignLeft from 'tabler-icons-react/dist/icons/align-left';
 
 const Drawer = ({
@@ -90,25 +88,6 @@ const Drawer = ({
         <Space h={40} />
 
         {children}
-
-        <Button
-          variant='subtle'
-          size='xl'
-          leftIcon={<Logout />}
-          sx={theme => ({
-            position: 'absolute',
-            bottom: 24,
-            color: theme.white,
-            background: 'transparent',
-            opacity: 0.7,
-            ':hover': {
-              opacity: 1,
-              background: 'transparent',
-            },
-          })}
-        >
-          Settings
-        </Button>
       </MantineDrawer>
 
       <ActionIcon radius='xl' size='lg' onClick={() => setOpened(true)}>

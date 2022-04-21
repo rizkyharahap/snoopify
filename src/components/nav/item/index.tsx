@@ -1,24 +1,24 @@
-import { Anchor, Group, List, Text } from '@mantine/core';
+import { Anchor, Group, Text } from '@mantine/core';
 import type { FC, ReactElement } from 'react';
-import { NavLink, NavLinkProps } from 'react-router-dom';
+import { Link, LinkProps, useMatch, useResolvedPath } from 'react-router-dom';
 
-export interface NavItemProps
-  extends Omit<NavLinkProps, 'className' | 'style'> {
+export interface NavItemProps extends Omit<LinkProps, 'className' | 'style'> {
   icon?: ReactElement;
 }
 
-const NavItem: FC<NavItemProps> = ({ icon, children, ...props }) => (
-  <List.Item>
+const NavItem: FC<NavItemProps> = ({ icon, to, children, ...props }) => {
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname, end: true });
+
+  return (
     <Anchor
       {...props}
-      component={NavLink}
+      component={Link}
       to='/ssdsda'
-      exact
       underline={false}
-      activeStyle={{ opacity: 1 }}
       sx={theme => ({
         color: theme.white,
-        opacity: 0.5,
+        opacity: match ? 1 : 0.6,
         ':hover': {
           opacity: 1,
         },
@@ -28,7 +28,7 @@ const NavItem: FC<NavItemProps> = ({ icon, children, ...props }) => (
         {icon} <Text size='xl'>{children}</Text>
       </Group>
     </Anchor>
-  </List.Item>
-);
+  );
+};
 
 export default NavItem;

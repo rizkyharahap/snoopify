@@ -1,13 +1,8 @@
-import {
-  combineReducers,
-  configureStore,
-  PreloadedState,
-} from '@reduxjs/toolkit';
+import { configureStore, PreloadedState } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { rootReducer } from 'services/reducers';
 
-export const rootReducer = combineReducers({});
-
-export const setupStore = (preloadedState?: PreloadedState<any>) =>
+export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
   configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(),
