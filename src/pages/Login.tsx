@@ -3,7 +3,7 @@ import ListeningMusic from 'assets/images/listening-music.png';
 import SpofityLogo from 'assets/images/spotify-logo.png';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetCurrentUserProfileQuery } from 'services/api/user/userApi';
+import { useGetCurrentUserProfileQuery } from 'services/api/userApi';
 import { spotifyAuthorizeURL } from 'services/authorize';
 import { useAppDispatch } from 'services/hooks/useAppDispatch';
 import { useAppSelector } from 'services/hooks/useAppSelector';

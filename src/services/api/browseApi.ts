@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { Artists } from 'services/types/artistTypes';
 import type { Categories } from 'services/types/categoryTypes';
-import { authorizedBaseQuery } from '../../helpers/baseQuery';
+import { authorizedBaseQuery } from '../helpers/baseQuery';
 
 export const browseApi = createApi({
   reducerPath: 'browseApi',

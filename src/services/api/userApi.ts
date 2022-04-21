@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { User } from 'services/types/userTypes';
-import { authorizedBaseQuery } from '../../helpers/baseQuery';
+import { authorizedBaseQuery } from '../helpers/baseQuery';
 
 export const userApi = createApi({
   reducerPath: 'userApi',

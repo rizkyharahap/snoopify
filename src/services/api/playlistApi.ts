@@ -5,7 +5,7 @@ import type {
   Playlists,
   Playlist,
 } from 'services/types/playlistTypes';
-import { authorizedBaseQuery } from '../../helpers/baseQuery';
+import { authorizedBaseQuery } from '../helpers/baseQuery';
 
 export const playlistApi = createApi({
   reducerPath: 'playlistApi',
