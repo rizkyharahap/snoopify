@@ -7,19 +7,20 @@ import NewRelease from './components/new-release';
 const HomePage = () => {
   return (
     <Container px='xs' size='xl'>
-      <Heading>Featured Playlist</Heading>
-
-      <FeaturedPlaylist />
+      <Heading>New Release</Heading>
+      <NewRelease />
 
       <Space h='sm' />
 
       <Heading>Categories</Heading>
       <Categories />
 
-      <Heading>New Release</Heading>
-      <NewRelease />
-
       <Space h='sm' />
+
+      <Heading>Featured Playlist</Heading>
+      <FeaturedPlaylist />
+
+      <Space h='xl' />
     </Container>
   );
 };

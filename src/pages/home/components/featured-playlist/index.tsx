@@ -1,4 +1,4 @@
-import { SimpleGrid } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import PlaylistCard from 'components/card/playlist';
 import PlaylistLoadingScreen from 'components/card/playlist/loading';
 import { useGetFeaturedPlaylistsQuery } from 'services/api/playlistApi';
@@ -17,15 +17,7 @@ const FeaturedPlaylist = () => {
   });
 
   return (
-    <SimpleGrid
-      cols={4}
-      spacing='xl'
-      breakpoints={[
-        { maxWidth: 980, cols: 3 },
-        { maxWidth: 755, cols: 2 },
-        { maxWidth: 600, cols: 3 },
-      ]}
-    >
+    <Stack justify='flex-start' spacing='xl'>
       {isLoading || isFetching || isError ? (
         <PlaylistLoadingScreen length={limit} />
       ) : (
@@ -39,7 +31,7 @@ const FeaturedPlaylist = () => {
           />
         ))
       )}
-    </SimpleGrid>
+    </Stack>
   );
 };
 

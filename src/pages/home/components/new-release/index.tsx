@@ -1,4 +1,4 @@
-import { Stack } from '@mantine/core';
+import { SimpleGrid } from '@mantine/core';
 import AlbumCard from 'components/card/album';
 import AlbumLoadingScreen from 'components/card/album/loading';
 import { useGetNewReleasesQuery } from 'services/api/browseApi';
@@ -17,7 +17,15 @@ const NewRelease = () => {
   });
 
   return (
-    <Stack justify='flex-start' spacing='xl'>
+    <SimpleGrid
+      cols={4}
+      spacing='xl'
+      breakpoints={[
+        { maxWidth: 980, cols: 3 },
+        { maxWidth: 755, cols: 2 },
+        { maxWidth: 600, cols: 3 },
+      ]}
+    >
       {isLoading || isFetching || isError ? (
         <AlbumLoadingScreen length={limit} />
       ) : (
@@ -25,13 +33,13 @@ const NewRelease = () => {
           <AlbumCard
             key={id}
             id={id}
-            name={name}
+            title={name}
             description={artists[0].name}
             imageUrl={images[0].url}
           />
         ))
       )}
-    </Stack>
+    </SimpleGrid>
   );
 };
 
