@@ -4,6 +4,8 @@ import type { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { setupStore } from 'store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 const theme: MantineThemeOverride = {
   colors: {
@@ -29,12 +31,15 @@ const theme: MantineThemeOverride = {
 };
 
 const store = setupStore();
+const persistor = persistStore(store);
 
 const AppProvider = ({ children }: PropsWithChildren<{}>) => (
   <MantineProvider theme={theme}>
     <NotificationsProvider>
       <Provider store={store}>
-        <Router>{children}</Router>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>{children}</Router>
+        </PersistGate>
       </Provider>
     </NotificationsProvider>
   </MantineProvider>

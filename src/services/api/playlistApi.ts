@@ -17,7 +17,7 @@ export const playlistApi = createApi({
   refetchOnReconnect: true,
 
   endpoints: builder => ({
-    getFeaturedPlaylists: builder.query<Playlists, number>({
+    getFeaturedPlaylists: builder.query<Playlists, number | undefined>({
       query: (limit = 10) => ({
         url: '/browse/featured-playlists',
         params: {
@@ -37,7 +37,7 @@ export const playlistApi = createApi({
           : ['Playlists'],
     }),
 
-    getCurrentUserPlaylist: builder.query<Playlists, number>({
+    getCurrentUserPlaylist: builder.query<Playlists, number | undefined>({
       query: (limit = 10) => ({
         url: '/me/playlists',
         params: {
