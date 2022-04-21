@@ -1,5 +1,7 @@
 import { Artist } from './artistTypes';
-import { ExternalUrls, Image } from './baseTypes';
+import { ExternalUrls, Image, Pagginate } from './baseTypes';
+
+export type Albums = Pagginate<Album>;
 
 export interface Album {
   album_type: string;

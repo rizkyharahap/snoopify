@@ -1,12 +1,12 @@
 import { LoadingOverlay } from '@mantine/core';
 import PrimaryLayout from 'components/layout/primary';
 import SecondaryLayout from 'components/layout/secondary';
+import HomePage from 'pages/home';
 import { lazy, Suspense } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import RequireAuth from 'utils/RequiredAuth';
 
 const NotFoundPage = lazy(() => import('pages/404'));
-const HomePage = lazy(() => import('pages/home'));
 const LoginPage = lazy(() => import('pages/Login'));
 
 function App() {
@@ -22,11 +22,7 @@ function App() {
         { path: '*', element: <Navigate replace to='/404' /> },
         {
           path: '/',
-          element: (
-            <Suspense fallback={<LoadingOverlay visible />}>
-              <HomePage />
-            </Suspense>
-          ),
+          element: <HomePage />,
         },
       ],
     },

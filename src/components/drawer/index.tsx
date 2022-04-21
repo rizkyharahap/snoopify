@@ -1,23 +1,29 @@
 import {
   ActionIcon,
-  Avatar,
   Drawer as MantineDrawer,
   DrawerProps,
-  Group,
   Space,
-  Text,
   useMantineTheme,
 } from '@mantine/core';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import UserCard from 'components/card/user';
 import { PropsWithChildren, useState } from 'react';
+import { useGetCurrentUserProfileQuery } from 'services/api/userApi';
+import { useAppSelector } from 'services/hooks/useAppSelector';
 import AlignLeft from 'tabler-icons-react/dist/icons/align-left';
 
 const Drawer = ({
   children,
   ...props
 }: PropsWithChildren<Omit<DrawerProps, 'opened' | 'onClose'>>) => {
+  const theme = useMantineTheme();
+
   const [opened, setOpened] = useState(false);
 
-  const theme = useMantineTheme();
+  const auth = useAppSelector(state => state.auth);
+
+  const { data: user } = useGetCurrentUserProfileQuery(auth.token || skipToken);
+
   return (
     <>
       <MantineDrawer
@@ -43,47 +49,12 @@ const Drawer = ({
         opened={opened}
         onClose={() => setOpened(false)}
       >
-        <Group
-          sx={theme => ({
-            backgroundColor: theme.white,
-            width: 'fit-content',
-            borderRadius: '0 12px 12px 0',
-          })}
-          mr='xl'
-          px='xl'
-          py='md'
-          spacing='sm'
-          direction='row'
-          noWrap
-        >
-          <Avatar
-            src='https://placeimg.com/640/640/people'
-            alt="it's me"
-            radius='xl'
-          />
-
-          <Group spacing={0}>
-            <Text
-              component='p'
-              color={theme.black}
-              my={0}
-              size='sm'
-              weight={600}
-              lineClamp={1}
-            >
-              My Name is Mantap Jiwa Oke bisa yakkk
-            </Text>
-            <Text
-              component='p'
-              color={theme.colors.grape[6]}
-              my={0}
-              size='xs'
-              lineClamp={1}
-            >
-              0 Followers
-            </Text>
-          </Group>
-        </Group>
+        <UserCard
+          name={user?.display_name}
+          follower={user?.followers?.total}
+          imageUrl={user?.images?.[0]?.url}
+          externalUrl={user?.external_urls.spotify}
+        />
 
         <Space h={40} />
 

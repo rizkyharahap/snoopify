@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react';
 
 const Title = ({ children, ...props }: PropsWithChildren<SharedTextProps>) => (
   <Text
-    size='lg'
+    size='md'
     my={0}
     component='h3'
     weight={700}

@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import type { Artists } from 'services/types/artistTypes';
+import type { Albums } from 'services/types/albumTypes';
 import type { Categories } from 'services/types/categoryTypes';
 import { authorizedBaseQuery } from '../helpers/baseQuery';
 
@@ -8,31 +8,32 @@ export const browseApi = createApi({
 
   baseQuery: authorizedBaseQuery,
 
-  tagTypes: ['Artists', 'Categories'],
+  tagTypes: ['Albums', 'Categories'],
 
   refetchOnReconnect: true,
 
   endpoints: builder => ({
-    getNewReleases: builder.query<Artists, number>({
+    getNewReleases: builder.query<Albums, number | undefined>({
       query: (limit = 10) => ({
         url: '/browse/new-releases',
         params: {
           limit,
         },
       }),
+      transformResponse: (response: { albums: Albums }) => response.albums,
       providesTags: result =>
         result
           ? [
               ...result.items.map(({ id }) => ({
-                type: 'Artists' as const,
+                type: 'Albums' as const,
                 id,
               })),
-              'Artists',
+              'Albums',
             ]
-          : ['Artists'],
+          : ['Albums'],
     }),
 
-    getCategories: builder.query<Categories, number>({
+    getCategories: builder.query<Categories, number | undefined>({
       query: limit => ({
         url: '/browse/categories',
         params: {

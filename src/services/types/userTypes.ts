@@ -17,7 +17,7 @@ export interface User {
   id: string;
   type: string;
   uri: string;
-  followers: Followers;
+  followers?: Followers;
   images?: Image[];
   country?: string;
   email?: string;

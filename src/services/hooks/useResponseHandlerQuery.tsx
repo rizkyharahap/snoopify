@@ -2,7 +2,7 @@ import { showNotification } from '@mantine/notifications';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { useEffect } from 'react';
-import { getReasonPhrase } from 'http-status-codes';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 import X from 'tabler-icons-react/dist/icons/x';
 
@@ -13,6 +13,7 @@ export interface ErrorResponse {
       status: number;
     };
   };
+  status: StatusCodes;
 }
 
 export const useResponseHandlerQuery = (
@@ -33,8 +34,14 @@ export const useResponseHandlerQuery = (
 ) => {
   useEffect(() => {
     if (isSuccess && onSuccess) onSuccess();
-    else if (isError && error) {
-      const { status, message } = (error as ErrorResponse).data.error;
+    else if (isError && (error as ErrorResponse)) {
+      console.log('Error : ', error);
+
+      const errorResponse = error as ErrorResponse;
+
+      const status = errorResponse.status || 500;
+      const message =
+        errorResponse?.data?.error?.message || 'Something went wrong';
 
       showNotification({
         id: `error-${status}`,
