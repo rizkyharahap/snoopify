@@ -1,4 +1,5 @@
 import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import type { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -31,9 +32,11 @@ const store = setupStore();
 
 const AppProvider = ({ children }: PropsWithChildren<{}>) => (
   <MantineProvider theme={theme}>
-    <Provider store={store}>
-      <Router>{children}</Router>
-    </Provider>
+    <NotificationsProvider>
+      <Provider store={store}>
+        <Router>{children}</Router>
+      </Provider>
+    </NotificationsProvider>
   </MantineProvider>
 );
 

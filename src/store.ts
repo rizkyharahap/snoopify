@@ -1,11 +1,12 @@
 import { configureStore, PreloadedState } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import { rootReducer } from 'services/reducers';
+import { rootMiddlewares, rootReducer } from 'services/helpers/storeHelpers';
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
   configureStore({
     reducer: rootReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(),
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(...rootMiddlewares),
     preloadedState,
 
     // Activate devtools for development mode

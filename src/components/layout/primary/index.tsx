@@ -4,7 +4,7 @@ import Nav from 'components/nav';
 import { NavItemProps } from 'components/nav/item';
 import { Outlet } from 'react-router-dom';
 import { useAppDispatch } from 'services/hooks/useAppDispatch';
-import { clearToken } from 'services/reducers/auth/authSlice';
+import { clearToken } from 'services/reducers/authSlice';
 import Heart from 'tabler-icons-react/dist/icons/heart';
 import Home from 'tabler-icons-react/dist/icons/home';
 import Logout from 'tabler-icons-react/dist/icons/logout';
