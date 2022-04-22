@@ -14,7 +14,7 @@ const columns: ObjectBreakPoint<number> = {
   sm: 5,
   md: 6,
   lg: 7,
-  xl: 9,
+  xl: 8,
 };
 
 const Categories = () => {
