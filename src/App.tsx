@@ -9,7 +9,7 @@ import RequireAuth from 'utils/RequiredAuth';
 const NotFoundPage = lazy(() => import('pages/404'));
 const LoginPage = lazy(() => import('pages/Login'));
 const PlaylistPage = lazy(() => import('pages/playlist'));
-const CreatePlaylistPage = lazy(() => import('pages/playlist/form'));
+const CreatePlaylistPage = lazy(() => import('pages/playlist/create'));
 
 function App() {
   const routes: RouteObject[] = [
