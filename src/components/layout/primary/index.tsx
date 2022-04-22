@@ -1,13 +1,18 @@
-import { AppShell, Button } from '@mantine/core';
+import { AppShell, GroupProps, Space } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import UserCard from 'components/card/user';
 import Drawer from 'components/drawer';
-import Nav from 'components/nav';
+import Header from 'components/header';
 import { NavItemProps } from 'components/nav/item';
+import SideBar from 'components/side-bar';
 import { Outlet } from 'react-router-dom';
-import { useAppDispatch } from 'services/hooks/useAppDispatch';
-import { clearToken } from 'services/reducers/authSlice';
+import { useGetCurrentUserProfileQuery } from 'services/api/userApi';
+import { useAppSelector } from 'services/hooks/useAppSelector';
+import Search from 'tabler-icons-react/dist/icons/search';
 import Heart from 'tabler-icons-react/dist/icons/heart';
 import Home from 'tabler-icons-react/dist/icons/home';
-import Logout from 'tabler-icons-react/dist/icons/logout';
+import SideNavigation from '../../side-navigation';
 
 const mainNavigations: NavItemProps[] = [
   {
@@ -16,17 +21,40 @@ const mainNavigations: NavItemProps[] = [
     title: 'Home',
   },
   {
-    to: '/favorite',
+    to: '/search',
+    icon: <Search />,
+    title: 'Search',
+  },
+  {
+    to: '/liked',
     icon: <Heart />,
-    title: 'Favourite Tracks',
+    title: 'Liked Song',
   },
 ];
 
+const Useritem = (props: GroupProps) => {
+  const auth = useAppSelector(state => state.auth);
+
+  const { data: user } = useGetCurrentUserProfileQuery(auth.token || skipToken);
+
+  return (
+    <UserCard
+      name={user?.display_name}
+      follower={user?.followers?.total}
+      imageUrl={user?.images?.[0]?.url}
+      externalUrl={user?.external_urls.spotify}
+      {...props}
+    />
+  );
+};
+
 const PrimaryLayout = () => {
-  const dispatch = useAppDispatch();
+  const isSmall = useMediaQuery('(min-width: 768px)');
 
   return (
     <AppShell
+      fixed
+      navbarOffsetBreakpoint='xs'
       styles={theme => ({
         main: {
           background:
@@ -35,34 +63,25 @@ const PrimaryLayout = () => {
               : theme.colors.gray[0],
         },
       })}
-      navbarOffsetBreakpoint='xs'
-      asideOffsetBreakpoint='xs'
+      {...(isSmall && {
+        navbar: (
+          <SideBar>
+            <Space h={40} />
+            <SideNavigation navigations={mainNavigations} />
+          </SideBar>
+        ),
+      })}
     >
-      <Drawer>
-        <Nav links={mainNavigations}>
-          <Button
-            variant='subtle'
-            size='xl'
-            leftIcon={<Logout />}
-            sx={theme => ({
-              position: 'absolute',
-              bottom: 24,
-              color: theme.white,
-              background: 'transparent',
-              opacity: 0.7,
-              ':hover': {
-                opacity: 1,
-                background: 'transparent',
-              },
-            })}
-            onClick={() => {
-              dispatch(clearToken());
-            }}
-          >
-            Logout
-          </Button>
-        </Nav>
-      </Drawer>
+      {!isSmall && (
+        <Drawer>
+          <Useritem style={{ width: '80%' }} px='xl' py='md' />
+          <Space h={40} />
+          <SideNavigation navigations={mainNavigations} />
+        </Drawer>
+      )}
+
+      <Header>{isSmall && <Useritem />}</Header>
+      <Space h='xl' />
 
       <Outlet />
     </AppShell>

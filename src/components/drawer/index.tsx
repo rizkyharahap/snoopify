@@ -1,28 +1,25 @@
 import {
-  ActionIcon,
   Drawer as MantineDrawer,
   DrawerProps,
-  Space,
   useMantineTheme,
 } from '@mantine/core';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-import UserCard from 'components/card/user';
-import { PropsWithChildren, useState } from 'react';
-import { useGetCurrentUserProfileQuery } from 'services/api/userApi';
+import { PropsWithChildren, useCallback } from 'react';
+import { useAppDispatch } from 'services/hooks/useAppDispatch';
 import { useAppSelector } from 'services/hooks/useAppSelector';
-import AlignLeft from 'tabler-icons-react/dist/icons/align-left';
+import { setIsDrawerOpen } from 'services/reducers/globalSlice';
 
 const Drawer = ({
   children,
   ...props
 }: PropsWithChildren<Omit<DrawerProps, 'opened' | 'onClose'>>) => {
   const theme = useMantineTheme();
+  const dispatch = useAppDispatch();
 
-  const [opened, setOpened] = useState(false);
+  const { isDrawerOpen } = useAppSelector(state => state.global);
 
-  const auth = useAppSelector(state => state.auth);
-
-  const { data: user } = useGetCurrentUserProfileQuery(auth.token || skipToken);
+  const handleDrawerOpen = useCallback(() => {
+    dispatch(setIsDrawerOpen());
+  }, [dispatch]);
 
   return (
     <>
@@ -46,24 +43,11 @@ const Drawer = ({
           },
         }}
         {...props}
-        opened={opened}
-        onClose={() => setOpened(false)}
+        opened={isDrawerOpen}
+        onClose={handleDrawerOpen}
       >
-        <UserCard
-          name={user?.display_name}
-          follower={user?.followers?.total}
-          imageUrl={user?.images?.[0]?.url}
-          externalUrl={user?.external_urls.spotify}
-        />
-
-        <Space h={40} />
-
         {children}
       </MantineDrawer>
-
-      <ActionIcon radius='xl' size='lg' onClick={() => setOpened(true)}>
-        <AlignLeft size={24} />
-      </ActionIcon>
     </>
   );
 };

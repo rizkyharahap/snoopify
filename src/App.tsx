@@ -2,6 +2,7 @@ import { LoadingOverlay } from '@mantine/core';
 import PrimaryLayout from 'components/layout/primary';
 import SecondaryLayout from 'components/layout/secondary';
 import HomePage from 'pages/home';
+import SearchPage from 'pages/search';
 import { lazy, Suspense } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import RequireAuth from 'utils/RequiredAuth';
@@ -23,6 +24,10 @@ function App() {
         {
           path: '/',
           element: <HomePage />,
+        },
+        {
+          path: '/search',
+          element: <SearchPage />,
         },
       ],
     },

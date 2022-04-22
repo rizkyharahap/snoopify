@@ -1,11 +1,26 @@
-import { Stack } from '@mantine/core';
+import { SimpleGrid, useMantineTheme } from '@mantine/core';
 import PlaylistCard from 'components/card/playlist';
 import PlaylistLoadingScreen from 'components/card/playlist/loading';
 import { useGetFeaturedPlaylistsQuery } from 'services/api/playlistApi';
+import {
+  ObjectBreakPoint,
+  useChangeBreakpoint,
+} from 'services/hooks/useChangeBreakpoint';
 import { useResponseHandlerQuery } from 'services/hooks/useResponseHandlerQuery';
 
+const columns: ObjectBreakPoint<number> = {
+  base: 10,
+  xs: 10,
+  sm: 10,
+  md: 10,
+  lg: 10,
+  xl: 12,
+};
+
 const FeaturedPlaylist = () => {
-  const limit = 3;
+  const theme = useMantineTheme();
+
+  const limit = useChangeBreakpoint<number>(columns);
 
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetFeaturedPlaylistsQuery(limit);
@@ -17,7 +32,14 @@ const FeaturedPlaylist = () => {
   });
 
   return (
-    <Stack justify='flex-start' spacing='xl'>
+    <SimpleGrid
+      spacing='md'
+      cols={1}
+      breakpoints={[
+        { minWidth: theme.breakpoints.xs, cols: 2 },
+        { minWidth: theme.breakpoints.xl, cols: 3 },
+      ]}
+    >
       {isLoading || isFetching || isError ? (
         <PlaylistLoadingScreen length={limit} />
       ) : (
@@ -31,7 +53,7 @@ const FeaturedPlaylist = () => {
           />
         ))
       )}
-    </Stack>
+    </SimpleGrid>
   );
 };
 

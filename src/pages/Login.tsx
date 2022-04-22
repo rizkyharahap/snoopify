@@ -4,7 +4,7 @@ import SpofityLogo from 'assets/images/spotify-logo.png';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetCurrentUserProfileQuery } from 'services/api/userApi';
-import { spotifyAuthorizeURL } from 'services/authorize';
+import { spotifyAuthorizeURL } from 'services/api/authorize';
 import { useAppDispatch } from 'services/hooks/useAppDispatch';
 import { useAppSelector } from 'services/hooks/useAppSelector';
 import { useResponseHandlerQuery } from 'services/hooks/useResponseHandlerQuery';

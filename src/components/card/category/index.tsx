@@ -14,14 +14,16 @@ const CategoryCard = ({ name, imageUrl }: CategoryCardProps) => (
         radius={999}
         width='100%'
         height='100%'
-        sx={{ minheight: 96 }}
+        sx={{ minheight: 84 }}
         src={imageUrl}
         alt={name}
         withPlaceholder
       />
     </Paper>
 
-    <Title align='center'>{name}</Title>
+    <Title mt='xs' align='center'>
+      {name}
+    </Title>
   </Group>
 );
 

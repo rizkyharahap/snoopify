@@ -11,21 +11,20 @@ const NavItem: FC<NavItemProps> = ({ icon, to, children, ...props }) => {
   const match = useMatch({ path: resolved.pathname, end: true });
 
   return (
-    <Anchor
-      {...props}
-      component={Link}
-      to='/ssdsda'
-      underline={false}
-      sx={theme => ({
-        color: theme.white,
-        opacity: match ? 1 : 0.6,
-        ':hover': {
-          opacity: 1,
-        },
-      })}
-    >
-      <Group px='xl' py='sm'>
-        {icon} <Text size='xl'>{children}</Text>
+    <Anchor underline={false} {...props} component={Link} to={to}>
+      <Group
+        px='xl'
+        py='sm'
+        sx={theme => ({
+          color: theme.white,
+          opacity: match ? 1 : 0.6,
+          ':hover': {
+            opacity: 1,
+          },
+          transition: 'opacity 0.1s',
+        })}
+      >
+        {icon} <Text size='lg'>{children}</Text>
       </Group>
     </Anchor>
   );

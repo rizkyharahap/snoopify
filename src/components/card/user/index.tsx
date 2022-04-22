@@ -1,17 +1,20 @@
-import { Avatar, Group, Text, useMantineTheme } from '@mantine/core';
+import { Avatar, Group, GroupProps, useMantineTheme } from '@mantine/core';
+import Subtitle from 'components/typography/subtitle';
+import Title from 'components/typography/title';
 
-export type UserCardProps = {
+export interface UserCardProps extends GroupProps {
   name?: string;
   follower?: number;
   imageUrl?: string;
   externalUrl?: string;
-};
+}
 
 const UserCard = ({
   name,
   follower = 0,
   imageUrl,
   externalUrl = 'https://open.spotify.com/',
+  ...props
 }: UserCardProps) => {
   const theme = useMantineTheme();
 
@@ -20,39 +23,22 @@ const UserCard = ({
       <Group
         sx={theme => ({
           backgroundColor: theme.white,
-          width: 'fit-content',
           borderRadius: '0 12px 12px 0',
         })}
         mr='xl'
-        px='xl'
-        py='md'
         spacing='sm'
         direction='row'
         noWrap
+        {...props}
       >
-        <Avatar src={imageUrl} alt="it's me" radius='xl' />
+        <Avatar src={imageUrl} alt={name} radius='xl' />
 
         <div>
-          <Text
-            component='p'
-            color={theme.black}
-            my={0}
-            size='sm'
-            weight={600}
-            lineClamp={1}
-          >
-            {name}
-          </Text>
+          <Title>{name}</Title>
 
-          <Text
-            component='p'
-            color={theme.colors.grape[6]}
-            my={0}
-            size='xs'
-            lineClamp={1}
-          >
+          <Subtitle color={theme.colors.grape[6]}>
             {follower} Followers
-          </Text>
+          </Subtitle>
         </div>
       </Group>
     </a>

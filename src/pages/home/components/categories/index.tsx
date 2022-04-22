@@ -1,13 +1,25 @@
-import { SimpleGrid, useMantineTheme } from '@mantine/core';
+import { MantineSizes, SimpleGrid, useMantineTheme } from '@mantine/core';
 import CategoryCard from 'components/card/category';
 import CategoryLoadingScreen from 'components/card/category/loading';
 import { useGetCategoriesQuery } from 'services/api/browseApi';
+import {
+  ObjectBreakPoint,
+  useChangeBreakpoint,
+} from 'services/hooks/useChangeBreakpoint';
 import { useResponseHandlerQuery } from 'services/hooks/useResponseHandlerQuery';
+
+const columns: ObjectBreakPoint<number> = {
+  base: 3,
+  xs: 5,
+  sm: 5,
+  md: 6,
+  lg: 7,
+  xl: 10,
+};
 
 const Categories = () => {
   const theme = useMantineTheme();
-
-  const limit = 6;
+  const limit = useChangeBreakpoint<number>(columns);
 
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetCategoriesQuery(limit);
@@ -20,13 +32,16 @@ const Categories = () => {
 
   return (
     <SimpleGrid
-      cols={4}
-      spacing='md'
-      breakpoints={[
-        { maxWidth: 980, cols: 3 },
-        { maxWidth: 755, cols: 2 },
-        { maxWidth: theme.breakpoints.xs, cols: 3 },
-      ]}
+      spacing='xl'
+      cols={columns.base}
+      breakpoints={Object.keys(columns)
+        .filter(key => key !== 'base')
+        .map(key => {
+          return {
+            minWidth: theme.breakpoints[key as keyof MantineSizes],
+            cols: columns[key as keyof MantineSizes],
+          };
+        })}
     >
       {isLoading || isFetching || isError ? (
         <CategoryLoadingScreen length={limit} />

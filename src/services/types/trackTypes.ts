@@ -1,6 +1,10 @@
 import type { Album } from './albumTypes';
-import type { Artists } from './artistTypes';
+import type { Artist } from './artistTypes';
 import type { ExternalIds, ExternalUrls, Pagginate } from './baseTypes';
+
+export interface TrackState {
+  selectedTracks: Track[];
+}
 
 export interface SearchTracksParams {
   q: string;
@@ -12,7 +16,7 @@ export type Tracks = Pagginate<Track>;
 
 export interface Track {
   album: Album;
-  artists: Artists[];
+  artists: Artist[];
   available_markets: string[];
   disc_number: number;
   duration_ms: number;

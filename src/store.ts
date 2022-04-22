@@ -8,7 +8,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import { rootMiddlewares, rootReducer } from 'services/helpers/storeHelpers';
+import { rootMiddlewares, rootReducer } from 'services/configs/redux';
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
   configureStore({

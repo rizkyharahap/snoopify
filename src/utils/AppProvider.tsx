@@ -22,7 +22,6 @@ const theme: MantineThemeOverride = {
       '#f51e38',
     ],
   },
-  primaryColor: 'brand',
   fontFamily: "'Source Sans Pro', sans-serif",
   headings: {
     fontFamily: "'Source Sans Pro', sans-serif",

@@ -16,10 +16,17 @@ const AlbumCard = ({ title, description, imageUrl }: AlbumCardProps) => (
         radius='sm'
         width='100%'
         height='100%'
-        style={{ minHeight: 80 }}
+        sx={{
+          minWidth: 80,
+          '@media (min-width: 576px)': {
+            minWidth: 110,
+          },
+          '@media (min-width: 768px)': {
+            minWidth: 120,
+          },
+        }}
         src={imageUrl}
         alt={title}
-        withPlaceholder
       />
     </Paper>
 

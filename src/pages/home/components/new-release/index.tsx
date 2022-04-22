@@ -1,11 +1,26 @@
-import { SimpleGrid } from '@mantine/core';
+import { MantineSizes, SimpleGrid, useMantineTheme } from '@mantine/core';
 import AlbumCard from 'components/card/album';
 import AlbumLoadingScreen from 'components/card/album/loading';
 import { useGetNewReleasesQuery } from 'services/api/browseApi';
+import {
+  ObjectBreakPoint,
+  useChangeBreakpoint,
+} from 'services/hooks/useChangeBreakpoint';
 import { useResponseHandlerQuery } from 'services/hooks/useResponseHandlerQuery';
 
+const columns: ObjectBreakPoint<number> = {
+  base: 3,
+  xs: 4,
+  sm: 4,
+  md: 5,
+  lg: 6,
+  xl: 6,
+};
+
 const NewRelease = () => {
-  const limit = 6;
+  const theme = useMantineTheme();
+
+  const limit = useChangeBreakpoint<number>(columns);
 
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetNewReleasesQuery(limit);
@@ -18,13 +33,16 @@ const NewRelease = () => {
 
   return (
     <SimpleGrid
-      cols={4}
       spacing='xl'
-      breakpoints={[
-        { maxWidth: 980, cols: 3 },
-        { maxWidth: 755, cols: 2 },
-        { maxWidth: 600, cols: 3 },
-      ]}
+      cols={columns.base}
+      breakpoints={Object.keys(columns)
+        .filter(key => key !== 'base')
+        .map(key => {
+          return {
+            minWidth: theme.breakpoints[key as keyof MantineSizes],
+            cols: columns[key as keyof MantineSizes],
+          };
+        })}
     >
       {isLoading || isFetching || isError ? (
         <AlbumLoadingScreen length={limit} />

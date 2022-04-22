@@ -6,7 +6,7 @@ import NewRelease from './components/new-release';
 
 const HomePage = () => {
   return (
-    <Container px='xs' size='xl'>
+    <Container px='xs' size='lg'>
       <Heading>New Release</Heading>
       <NewRelease />
 
