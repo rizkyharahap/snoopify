@@ -1,6 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { Albums } from 'services/types/albumTypes';
 import type { Categories } from 'services/types/categoryTypes';
+import type {
+  FeaturedPlaylists,
+  Playlists,
+} from 'services/types/playlistTypes';
 import { authorizedBaseQuery } from '../helpers/baseQuery';
 
 export const browseApi = createApi({
@@ -8,7 +12,7 @@ export const browseApi = createApi({
 
   baseQuery: authorizedBaseQuery,
 
-  tagTypes: ['Albums', 'Categories'],
+  tagTypes: ['Albums', 'Categories', 'Featured-Playlist'],
 
   refetchOnReconnect: true,
 
@@ -53,8 +57,33 @@ export const browseApi = createApi({
             ]
           : ['Categories'],
     }),
+
+    getFeaturedPlaylists: builder.query<Playlists, number | undefined>({
+      query: (limit = 10) => ({
+        url: '/browse/featured-playlists',
+        params: {
+          limit,
+        },
+      }),
+      transformResponse: (response: FeaturedPlaylists) => response.playlists,
+      providesTags: result =>
+        result
+          ? [
+              ...result.items.map(({ id }) => ({
+                type: 'Featured-Playlist' as const,
+                id,
+              })),
+              'Featured-Playlist',
+            ]
+          : ['Featured-Playlist'],
+    }),
   }),
 });
 
-export const { useGetNewReleasesQuery, useGetCategoriesQuery } = browseApi;
-export const { getNewReleases, getCategories } = browseApi.endpoints;
+export const {
+  useGetNewReleasesQuery,
+  useGetCategoriesQuery,
+  useGetFeaturedPlaylistsQuery,
+} = browseApi;
+export const { getNewReleases, getCategories, getFeaturedPlaylists } =
+  browseApi.endpoints;

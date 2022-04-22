@@ -1,27 +1,32 @@
-import { Container, Space } from '@mantine/core';
-import Heading from 'components/typography/heading';
+import { Divider, Space, Title } from '@mantine/core';
 import Categories from './components/categories';
 import FeaturedPlaylist from './components/featured-playlist';
 import NewRelease from './components/new-release';
 
 const HomePage = () => {
   return (
-    <Container px='xs' size='lg'>
-      <Heading>New Release</Heading>
+    <>
+      <Title order={2} mb='md'>
+        New Release
+      </Title>
       <NewRelease />
 
-      <Space h='sm' />
+      <Divider my='xl' />
 
-      <Heading>Categories</Heading>
+      <Title order={2} mb='lg'>
+        Categories
+      </Title>
       <Categories />
 
-      <Space h='sm' />
+      <Divider my='xl' />
 
-      <Heading>Featured Playlist</Heading>
+      <Title order={2} mb='lg'>
+        Featured Playlist
+      </Title>
       <FeaturedPlaylist />
 
       <Space h='xl' />
-    </Container>
+    </>
   );
 };
 

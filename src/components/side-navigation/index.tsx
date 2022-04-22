@@ -1,36 +1,30 @@
-import { Button } from '@mantine/core';
+import { Divider } from '@mantine/core';
 import Nav from 'components/nav';
-import { NavItemProps } from 'components/nav/item';
-import { useAppDispatch } from 'services/hooks/useAppDispatch';
-import { clearToken } from 'services/reducers/authSlice';
-import Logout from 'tabler-icons-react/dist/icons/logout';
+import NavItem, { NavItemProps } from 'components/nav/item';
+import { useGetCurrentUserPlaylistQuery } from 'services/api/playlistApi';
+import { useResponseHandlerQuery } from 'services/hooks/useResponseHandlerQuery';
 
 const SideNavigation = ({ navigations }: { navigations: NavItemProps[] }) => {
-  const dispatch = useAppDispatch();
+  const { data, isSuccess, isError, error } =
+    useGetCurrentUserPlaylistQuery(10);
+
+  useResponseHandlerQuery({
+    error,
+    isError,
+    isSuccess,
+  });
 
   return (
     <Nav links={navigations}>
-      <Button
-        variant='subtle'
-        size='xl'
-        leftIcon={<Logout />}
-        sx={theme => ({
-          position: 'absolute',
-          bottom: 24,
-          color: theme.white,
-          background: 'transparent',
-          opacity: 0.7,
-          ':hover': {
-            opacity: 1,
-            background: 'transparent',
-          },
-        })}
-        onClick={() => {
-          dispatch(clearToken());
-        }}
-      >
-        Logout
-      </Button>
+      <Divider mx='md' my='sm' />
+
+      {data?.items.map(({ id, name }) => {
+        return (
+          <NavItem key={id} to={`/playlist/${id}`}>
+            {name}
+          </NavItem>
+        );
+      })}
     </Nav>
   );
 };

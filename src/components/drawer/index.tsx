@@ -1,6 +1,7 @@
 import {
   Drawer as MantineDrawer,
   DrawerProps,
+  ScrollArea,
   useMantineTheme,
 } from '@mantine/core';
 import { PropsWithChildren, useCallback } from 'react';
@@ -22,33 +23,34 @@ const Drawer = ({
   }, [dispatch]);
 
   return (
-    <>
-      <MantineDrawer
-        size='md'
-        styles={{
-          drawer: {
-            backgroundColor: theme.colors.brand[9],
-            color: theme.white,
+    <MantineDrawer
+      size='md'
+      styles={{
+        drawer: {
+          height: '100vh',
+          backgroundColor: theme.colors.brand[9],
+          color: theme.white,
+        },
+        closeButton: {
+          color: theme.white,
+          svg: {
+            width: 24,
+            height: 24,
           },
-          closeButton: {
-            color: theme.white,
-            svg: {
-              width: 24,
-              height: 24,
-            },
-            margin: 16,
-            ':hover': {
-              backgroundColor: theme.fn.rgba(theme.colors.brand[6], 0.7),
-            },
+          margin: 16,
+          ':hover': {
+            backgroundColor: theme.fn.rgba(theme.colors.brand[6], 0.7),
           },
-        }}
-        {...props}
-        opened={isDrawerOpen}
-        onClose={handleDrawerOpen}
-      >
+        },
+      }}
+      {...props}
+      opened={isDrawerOpen}
+      onClose={handleDrawerOpen}
+    >
+      <ScrollArea style={{ height: 'calc(100vh - 105px)' }}>
         {children}
-      </MantineDrawer>
-    </>
+      </ScrollArea>
+    </MantineDrawer>
   );
 };
 

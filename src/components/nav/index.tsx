@@ -8,17 +8,15 @@ interface NavProps {
 
 const Nav = ({ links, children }: PropsWithChildren<NavProps>) => {
   return (
-    <nav>
-      <List listStyleType='none'>
-        {links.map((link, index) => (
-          <List.Item key={index}>
-            <NavItem {...link}>{link.title}</NavItem>
-          </List.Item>
-        ))}
+    <List listStyleType='none'>
+      {links.map((link, index) => (
+        <NavItem key={index} {...link}>
+          {link.title}
+        </NavItem>
+      ))}
 
-        {children && <List.Item>{children}</List.Item>}
-      </List>
-    </nav>
+      {children}
+    </List>
   );
 };
 

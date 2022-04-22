@@ -13,7 +13,7 @@ export const searchApi = createApi({
 
   endpoints: builder => ({
     getSearchTracks: builder.query<Tracks, SearchTracksParams>({
-      query: ({ q, limit = 10, offset = 1 }) => ({
+      query: ({ q, limit = 10, offset = 0 }) => ({
         url: '/search',
         params: {
           q,

@@ -21,3 +21,8 @@ export interface Pagginate<T> {
 export interface ExternalIds {
   isrc: string;
 }
+
+export interface PagginateParams {
+  limit?: number;
+  offset?: number;
+}

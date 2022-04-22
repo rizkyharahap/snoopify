@@ -10,7 +10,7 @@ export interface AlbumCardProps {
 }
 
 const AlbumCard = ({ title, description, imageUrl }: AlbumCardProps) => (
-  <Group align='stretch' direction='column' spacing={0}>
+  <Group align='stretch' direction='column' spacing='sm'>
     <Paper shadow='xl' radius='sm'>
       <Image
         radius='sm'
@@ -30,9 +30,11 @@ const AlbumCard = ({ title, description, imageUrl }: AlbumCardProps) => (
       />
     </Paper>
 
-    <Title>{title}</Title>
+    <div>
+      <Title>{title}</Title>
 
-    {description && <Subtitle>{description}</Subtitle>}
+      {description && <Subtitle>{description}</Subtitle>}
+    </div>
   </Group>
 );
 

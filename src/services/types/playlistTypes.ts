@@ -1,15 +1,36 @@
 import type { ExternalUrls, Image, Pagginate } from './baseTypes';
-import { User } from './userTypes';
+import type { Track } from './trackTypes';
+import type { User } from './userTypes';
 
 export interface FeaturedPlaylists {
   message: string;
   playlists: Playlists;
 }
 
+export type PlaylistTracks = Pagginate<PlaylistTrack>;
+
+export interface PlaylistTrack {
+  added_at: string;
+  added_by: User;
+  is_local: boolean;
+  primary_color: any;
+  track: Track;
+  video_thumbnail: VideoThumbnail;
+}
+
+export interface VideoThumbnail {
+  url: string | null;
+}
+
 export interface AddPlaylist {
-  message: string;
-  playlist: Playlists;
+  name: string;
+  description: string;
   public?: boolean;
+}
+
+export interface AddPlaylistItem {
+  playlist_id: string;
+  uris: string[];
 }
 
 export type Playlists = Pagginate<Playlist>;
@@ -26,12 +47,7 @@ export interface Playlist {
   primary_color: string | null;
   public: boolean;
   snapshot_id: string;
-  tracks: PlaylistTracks;
+  tracks: Pagginate<PlaylistTrack>;
   type: string;
   uri: string;
-}
-
-export interface PlaylistTracks {
-  href: string;
-  total: number;
 }

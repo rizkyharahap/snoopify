@@ -20,17 +20,7 @@ const UserCard = ({
 
   return (
     <a href={externalUrl} target='_blank' rel='noreferrer'>
-      <Group
-        sx={theme => ({
-          backgroundColor: theme.white,
-          borderRadius: '0 12px 12px 0',
-        })}
-        mr='xl'
-        spacing='sm'
-        direction='row'
-        noWrap
-        {...props}
-      >
+      <Group spacing='sm' direction='row' noWrap {...props}>
         <Avatar src={imageUrl} alt={name} radius='xl' />
 
         <div>

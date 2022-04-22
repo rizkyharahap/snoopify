@@ -1,4 +1,4 @@
-import { Input, Box } from '@mantine/core';
+import { Input, Box, Loader } from '@mantine/core';
 import {
   FormEvent,
   ChangeEvent,
@@ -8,17 +8,21 @@ import {
 } from 'react';
 import Search from 'tabler-icons-react/dist/icons/search';
 
-interface SearchBarProps {
+export interface SearchBarProps {
+  id?: string;
   onSubmit: (search: string) => void;
   onChange?: (search: string) => void;
   defaultValue?: string;
   placeholder?: string;
+  isLoading?: boolean;
 }
 
 const SearchBar = ({
+  id,
   defaultValue = '',
   onSubmit,
   onChange,
+  isLoading = false,
   ...props
 }: SearchBarProps) => {
   const [search, setSearch] = useState(defaultValue);
@@ -48,6 +52,7 @@ const SearchBar = ({
       }}
     >
       <Input
+        id={id}
         width='100%'
         variant='filled'
         radius='md'
@@ -57,6 +62,7 @@ const SearchBar = ({
         {...props}
         value={search}
         onChange={handleOnInputChange}
+        rightSection={isLoading && <Loader mr='xs' />}
       />
       <button type='submit' hidden></button>
     </Box>

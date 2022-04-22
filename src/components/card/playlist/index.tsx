@@ -10,7 +10,7 @@ export interface PlaylistCardProps {
 }
 
 const PlaylistCard = ({ title, description, imageUrl }: PlaylistCardProps) => (
-  <Grid align='center' gutter='sm'>
+  <Grid align='center' gutter='sm' mb='xs'>
     <Grid.Col span={2}>
       <Paper shadow='xl' radius='sm'>
         <Image

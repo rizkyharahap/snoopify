@@ -2,13 +2,14 @@ import { LoadingOverlay } from '@mantine/core';
 import PrimaryLayout from 'components/layout/primary';
 import SecondaryLayout from 'components/layout/secondary';
 import HomePage from 'pages/home';
-import SearchPage from 'pages/search';
 import { lazy, Suspense } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import RequireAuth from 'utils/RequiredAuth';
 
 const NotFoundPage = lazy(() => import('pages/404'));
 const LoginPage = lazy(() => import('pages/Login'));
+const PlaylistPage = lazy(() => import('pages/playlist'));
+const CreatePlaylistPage = lazy(() => import('pages/playlist/form'));
 
 function App() {
   const routes: RouteObject[] = [
@@ -25,9 +26,22 @@ function App() {
           path: '/',
           element: <HomePage />,
         },
+
         {
-          path: '/search',
-          element: <SearchPage />,
+          path: '/playlist/:id',
+          element: (
+            <Suspense fallback={<LoadingOverlay visible />}>
+              <PlaylistPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: '/create-playlist',
+          element: (
+            <Suspense fallback={<LoadingOverlay visible />}>
+              <CreatePlaylistPage />
+            </Suspense>
+          ),
         },
       ],
     },

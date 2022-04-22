@@ -1,31 +1,31 @@
 import {
-  Container,
-  LoadingOverlay,
-  Pagination,
+  Divider,
+  InputWrapper,
   SimpleGrid,
   Space,
   useMantineTheme,
 } from '@mantine/core';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import TrackCard from 'components/card/track';
+import SearchBar from 'components/header/search-bar';
+import Pagination from 'components/pagination';
 import Subtitle from 'components/typography/subtitle';
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useGetSearchTracksQuery } from 'services/api/searchApi';
 import { milisToMinutesAndSeconds } from 'services/helpers/convertTime';
 import { useResponseHandlerQuery } from 'services/hooks/useResponseHandlerQuery';
-import SelectTrackAction from './components/action';
+import SelectTrackAction from '../action';
 
-const SearchPage = () => {
-  const [activePage, setPage] = useState(1);
+const limit = 10;
 
+const Search = () => {
   const theme = useMantineTheme();
-  const [params] = useSearchParams();
+  const [activePage, setPage] = useState(1);
+  const [query, setQuery] = useState('');
 
-  const query = params.get('q');
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useGetSearchTracksQuery(
-      query ? { q: query, offset: activePage } : skipToken,
+      query ? { q: query, limit, offset: activePage - 1 } : skipToken,
       {
         refetchOnMountOrArgChange: true,
       },
@@ -38,13 +38,25 @@ const SearchPage = () => {
   });
 
   return (
-    <Container px='xs' size='md'>
-      <LoadingOverlay
-        visible={isLoading || isFetching}
-        loaderProps={{ size: 'xl', color: 'white', variant: 'bars' }}
-        overlayColor={theme.colors.dark[4]}
-        overlayOpacity={0.6}
-      />
+    <>
+      <InputWrapper
+        id='tf-search'
+        label="Let's find something for your playlist"
+        size='xl'
+        labelProps={{ style: { fontWeight: 'bold' } }}
+        sx={{ maxWidth: 350 }}
+      >
+        <SearchBar
+          isLoading={isLoading || isFetching}
+          id='tf-search'
+          onSubmit={value => {
+            if (value) setQuery(value);
+          }}
+          placeholder='Search tracks here'
+        />
+      </InputWrapper>
+
+      <Space h='xl' />
 
       <SimpleGrid
         spacing='lg'
@@ -55,9 +67,8 @@ const SearchPage = () => {
           const { id, artists, name, duration_ms, album } = track;
 
           return (
-            <>
+            <div key={id}>
               <TrackCard
-                key={id}
                 id={id}
                 title={name}
                 artist={artists[0].name}
@@ -69,25 +80,18 @@ const SearchPage = () => {
                   {milisToMinutesAndSeconds(duration_ms)}
                 </Subtitle>
               </TrackCard>
-            </>
+
+              <Divider mt='lg' />
+            </div>
           );
         })}
       </SimpleGrid>
 
       <Space h='xl' />
 
-      {data?.total && data.total > 1 && (
-        <Pagination
-          color='brand'
-          ml='auto'
-          align='flex-end'
-          total={data.total}
-          page={activePage}
-          onChange={setPage}
-        />
-      )}
-    </Container>
+      <Pagination count={data?.total} page={activePage} onChange={setPage} />
+    </>
   );
 };
 
-export default SearchPage;
+export default Search;

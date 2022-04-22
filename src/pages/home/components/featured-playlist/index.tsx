@@ -1,7 +1,7 @@
-import { SimpleGrid, useMantineTheme } from '@mantine/core';
+import { Divider, SimpleGrid, useMantineTheme } from '@mantine/core';
 import PlaylistCard from 'components/card/playlist';
 import PlaylistLoadingScreen from 'components/card/playlist/loading';
-import { useGetFeaturedPlaylistsQuery } from 'services/api/playlistApi';
+import { useGetFeaturedPlaylistsQuery } from 'services/api/browseApi';
 import {
   ObjectBreakPoint,
   useChangeBreakpoint,
@@ -33,7 +33,7 @@ const FeaturedPlaylist = () => {
 
   return (
     <SimpleGrid
-      spacing='md'
+      spacing='xl'
       cols={1}
       breakpoints={[
         { minWidth: theme.breakpoints.xs, cols: 2 },
@@ -44,13 +44,17 @@ const FeaturedPlaylist = () => {
         <PlaylistLoadingScreen length={limit} />
       ) : (
         data?.items.map(({ id, name, description, images }) => (
-          <PlaylistCard
-            key={id}
-            id={id}
-            title={name}
-            description={description}
-            imageUrl={images[0].url}
-          />
+          <div key={id}>
+            <PlaylistCard
+              key={id}
+              id={id}
+              title={name}
+              description={description}
+              imageUrl={images[0].url}
+            />
+
+            <Divider mt='lg' />
+          </div>
         ))
       )}
     </SimpleGrid>

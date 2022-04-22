@@ -1,9 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type {
   AddPlaylist,
-  FeaturedPlaylists,
-  Playlists,
+  AddPlaylistItem,
   Playlist,
+  Playlists,
 } from 'services/types/playlistTypes';
 import { authorizedBaseQuery } from '../helpers/baseQuery';
 
@@ -17,26 +17,6 @@ export const playlistApi = createApi({
   refetchOnReconnect: true,
 
   endpoints: builder => ({
-    getFeaturedPlaylists: builder.query<Playlists, number | undefined>({
-      query: (limit = 10) => ({
-        url: '/browse/featured-playlists',
-        params: {
-          limit,
-        },
-      }),
-      transformResponse: (response: FeaturedPlaylists) => response.playlists,
-      providesTags: result =>
-        result
-          ? [
-              ...result.items.map(({ id }) => ({
-                type: 'Playlists' as const,
-                id,
-              })),
-              'Playlists',
-            ]
-          : ['Playlists'],
-    }),
-
     getCurrentUserPlaylist: builder.query<Playlists, number | undefined>({
       query: (limit = 10) => ({
         url: '/me/playlists',
@@ -51,26 +31,58 @@ export const playlistApi = createApi({
                 type: 'Playlists' as const,
                 id,
               })),
-              'Playlists',
+              { type: 'Playlists', id: 'LIST' },
             ]
           : ['Playlists'],
+    }),
+
+    getPlaylistById: builder.query<Playlist, string>({
+      query: id => ({
+        url: `/playlists/${id}`,
+      }),
+      providesTags: (_result, _error, id) => [{ type: 'Playlists', id }],
     }),
 
     addPlaylist: builder.mutation<
       Playlist,
       { user_id: string; data: AddPlaylist }
     >({
-      query: ({ user_id, data }) => ({
+      query: ({
+        user_id,
+        data: { name, description, public: isPublic = false },
+      }) => ({
         url: `/users/${user_id}/playlists`,
         method: 'POST',
-        body: data,
+        body: {
+          name,
+          description,
+          public: isPublic,
+        },
       }),
-      invalidatesTags: result => [{ type: 'Playlists', id: result?.id }],
+      invalidatesTags: [{ type: 'Playlists', id: 'LIST' }],
+    }),
+
+    addPlaylistItem: builder.mutation<Playlist, AddPlaylistItem>({
+      query: ({ playlist_id, uris }) => ({
+        url: `/playlists/${playlist_id}/tracks`,
+        method: 'POST',
+        body: {
+          uris,
+        },
+      }),
     }),
   }),
 });
 
-export const { useGetFeaturedPlaylistsQuery, useGetCurrentUserPlaylistQuery } =
-  playlistApi;
-export const { getFeaturedPlaylists, getCurrentUserPlaylist } =
-  playlistApi.endpoints;
+export const {
+  useGetCurrentUserPlaylistQuery,
+  useGetPlaylistByIdQuery,
+  useAddPlaylistMutation,
+  useAddPlaylistItemMutation,
+} = playlistApi;
+export const {
+  getCurrentUserPlaylist,
+  getPlaylistById,
+  addPlaylist,
+  addPlaylistItem,
+} = playlistApi.endpoints;

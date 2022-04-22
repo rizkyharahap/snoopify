@@ -6,11 +6,10 @@ const Subtitle = ({
   ...props
 }: PropsWithChildren<SharedTextProps>) => (
   <Text
-    size='sm'
     lineClamp={2}
     weight={600}
     color='gray'
-    sx={{ lineHeight: 1 }}
+    sx={{ lineHeight: 1.3 }}
     {...props}
   >
     {children}

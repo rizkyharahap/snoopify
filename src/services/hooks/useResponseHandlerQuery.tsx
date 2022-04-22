@@ -3,7 +3,6 @@ import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { useEffect } from 'react';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-
 import X from 'tabler-icons-react/dist/icons/x';
 
 export interface ErrorResponse {
