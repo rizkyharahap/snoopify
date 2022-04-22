@@ -23,7 +23,7 @@ const NewRelease = () => {
   const limit = useChangeBreakpoint<number>(columns);
 
   const { data, isError, error, isFetching, isLoading, isSuccess } =
-    useGetNewReleasesQuery(limit);
+    useGetNewReleasesQuery(limit || columns.base);
 
   useResponseHandlerQuery({
     error,
